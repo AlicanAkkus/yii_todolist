@@ -20,7 +20,7 @@ Uygulamada kullanılan tabloların taşınması ve hazır hale getirilmesi için
 
 Migrate oluşturmak için;
 ``` php
-	C:\xampp\htdocs\advanced\console\migrations
+	${baseDirectory}\htdocs\advanced\console\migrations
 	yii migrate
 ```
 
@@ -282,6 +282,12 @@ http://advanced.com/admin/todo/todo/index
 ~~~
 
 Örnek ekran görüntüler;
+
+Todo Listesi;
+![Alt text](/ss/Selection_065.png?raw=true "Example TODO LIST UI")
+
+Todo Görüntüleme;
+![Alt text](/ss/Selection_066.png?raw=true "Example TODO VIEW UI")
 
 
 
