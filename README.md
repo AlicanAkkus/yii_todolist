@@ -289,6 +289,8 @@ Todo Listesi;
 Todo Görüntüleme;
 ![Alt text](/ss/Selection_066.png?raw=true "Example TODO VIEW UI")
 
+About;
+![Alt text](/ss/Selection_053.png?raw=true "Example TODO VIEW UI")
 
 
 
