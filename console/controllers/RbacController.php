@@ -11,47 +11,47 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        // add "createPost" permission
-        $createContent = $auth->createPermission('createContent');
-        $createContent->description = 'Create a content';
-        $auth->add($createContent);
+        // add "createTodo" permission
+        $createTodo = $auth->createPermission('createTodo');
+        $createTodo->description = 'Create a todo';
+        $auth->add($createTodo);
 
-        // add "updatePost" permission
-        $updateContent = $auth->createPermission('updateContent');
-        $updateContent->description = 'Update content';
-        $auth->add($updateContent);
+        // add "updateTodo" permission
+        $updateTodo = $auth->createPermission('updateTodo');
+        $updateTodo->description = 'Update todo';
+        $auth->add($updateTodo);
 
-       /* // add "deletePost" permission
-        $deleteContent = $auth->createPermission('deleteContent');
-        $deleteContent->description = 'Delete content';
-        $auth->add($deleteContent);*/
+       /* // add "deleteTodo" permission
+        $deleteTodo = $auth->createPermission('deleteTodo');
+        $deleteTodo->description = 'Delete todo';
+        $auth->add($deleteTodo);*/
 
          // add "deletePost" permission
-        $deleteContent = $auth->createPermission('deleteContent');
-        $deleteContent->description = 'Delete content';
-        $auth->add($deleteContent);
+        $deleteTodo = $auth->createPermission('deleteTodo');
+        $deleteTodo->description = 'Delete todo';
+        $auth->add($deleteTodo);
 		
-		// add "deletePost" permission
-        $createComment = $auth->createPermission('comment');
+		// add "createComment" permission
+        $createComment = $auth->createPermission('createComment');
         $createComment->description = 'Create Comment';
         $auth->add($createComment);
 
-        // add "author" role and give this role the "createPost" permission
-        $author = $auth->createRole('author');
-        $auth->add($author);
-        $auth->addChild($author, $createContent);
+        // add "todo own" role and give this role the "createTodo" permission
+        $todoown = $auth->createRole('todoown');
+        $auth->add($todoown);
+        $auth->addChild($todoown, $createTodo);
 
-        // add "admin" role and give this role the "updatePost" permission
-        // as well as the permissions of the "author" role
+        // add "todo admin" role and give this role the "updateTodo" permission
+        // as well as the permissions of the "todoown" role
         $admin = $auth->createRole('admin');
         $auth->add($admin);
-        $auth->addChild($admin, $updateContent);
-        $auth->addChild($admin, $deleteContent);
-        $auth->addChild($admin, $author);
+        $auth->addChild($admin, $updateTodo);
+        $auth->addChild($admin, $deleteTodo);
+        $auth->addChild($admin, $todoown);
 
         // Assign roles to users. 1 and 2 are IDs returned by IdentityInterface::getId()
         // usually implemented in your User model.
-        $auth->assign($author, 2);
+        $auth->assign($todoown, 2);
         $auth->assign($admin, 1);
     }
 	
@@ -63,29 +63,29 @@ class RbacController extends Controller
 		$rule = new AuthorRule;
 		$auth->add($rule);
 
-		// add the "updateOwnPost" permission and associate the rule with it.
-		$updateOwnContent = $auth->createPermission('updateOwnContent');
-		$updateOwnContent->description = 'Update own content';
-		$updateOwnContent->ruleName = $rule->name;
-		$auth->add($updateOwnContent);
+		// add the "updateOwnTodo" permission and associate the rule with it.
+		$updateOwnTodo = $auth->createPermission('updateOwnTodo');
+		$updateOwnTodo->description = 'Update own todo';
+		$updateOwnTodo->ruleName = $rule->name;
+		$auth->add($updateOwnTodo);
 
-		// "updateOwnPost" will be used from "updatePost"
-		$updateContent = $auth->getPermission('updateContent');
-		$auth->addChild($updateOwnContent, $updateContent);
+		// "updateOwnTodo" will be used from "updateTodo"
+		$updateOwnTodo = $auth->getPermission('updateTodo');
+		$auth->addChild($updateOwnTodo, $updateOwnTodo);
 
-        // add the "deleteOwnPost" permission and associate the rule with it.
-        $deleteOwnContent = $auth->createPermission('deleteOwnContent');
-        $deleteOwnContent->description = 'Delete own content';
-        $deleteOwnContent->ruleName = $rule->name;
-        $auth->add($deleteOwnContent);
+        // add the "deleteOwnTodo" permission and associate the rule with it.
+        $deleteOwnTodo = $auth->createPermission('deleteOwnTodo');
+        $deleteOwnTodo->description = 'Delete own todo';
+        $deleteOwnTodo->ruleName = $rule->name;
+        $auth->add($deleteOwnTodo);
 
-        // "deleteOwnPost" will be used from "deletePost"
-        $deleteContent = $auth->getPermission('deleteContent');
-        $auth->addChild($deleteOwnContent, $deleteContent);
+        // "deleteTodo" will be used from "deleteTodo"
+        $deleteTodo = $auth->getPermission('deleteTodo');
+        $auth->addChild($deleteOwnTodo, $deleteTodo);
 
-        // allow "author" to update their own posts
-        $author = $auth->getRole('author');
-        $auth->addChild($author, $deleteOwnContent);
-        $auth->addChild($author, $updateOwnContent);
+        // allow "todoown" to update their own posts
+        $todoown = $auth->getRole('todoown');
+        $auth->addChild($todoown, $deleteOwnTodo);
+        $auth->addChild($todoown, $updateOwnTodo);
 	}
 }
